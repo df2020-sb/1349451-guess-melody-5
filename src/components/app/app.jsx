@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 
 import WelcomeScreen from "../welcome-screen/welcome-screen";
@@ -7,12 +6,9 @@ import LoginScreen from "../login-screen/login-screen";
 import SuccessScreen from "../success-screen/success-screen";
 import FailureScreen from "../failure-screen/failure-screen";
 import GameScreen from "../game-screen/game-screen";
+import {MAX_MISTAKE_COUNT} from "../../const";
 
-import questionGenreProp from "../question-genre-screen/question-genre.prop";
-import questionArtistProp from "../question-artist-screen/question-artist.prop";
-
-const App = (props) => {
-  const {errorsCount, questions} = props;
+const App = () => {
 
   return (
     <BrowserRouter>
@@ -22,7 +18,7 @@ const App = (props) => {
           render={({history}) => (
             <WelcomeScreen
               onPlayButtonClick={() => history.push(`/game`)}
-              errorsCount={errorsCount}
+              errorsCount={MAX_MISTAKE_COUNT}
             />
           )}
         />
@@ -36,18 +32,13 @@ const App = (props) => {
           <FailureScreen />
         </Route>
         <Route exact path="/game">
-          <GameScreen errorsCount={errorsCount} questions={questions}/>
+          <GameScreen errorsCount={MAX_MISTAKE_COUNT}/>
         </Route>
       </Switch>
     </BrowserRouter>
   );
 };
 
-App.propTypes = {
-  errorsCount: PropTypes.number.isRequired,
-  questions: PropTypes.arrayOf(
-      PropTypes.oneOfType([questionArtistProp, questionGenreProp]).isRequired
-  ),
-};
+App.propTypes = {};
 
 export default App;

@@ -2,7 +2,6 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import questionGenreProp from "./question-genre.prop";
 
-
 class QuestionGenreScreen extends PureComponent {
   constructor(props) {
     super(props);
@@ -12,9 +11,8 @@ class QuestionGenreScreen extends PureComponent {
     };
   }
 
-
   render() {
-    const {onAnswer, question, renderPlayer} = this.props;
+    const {onAnswer, question, renderPlayer, children} = this.props;
     const {answers: userAnswers} = this.state;
     const {
       answers,
@@ -32,12 +30,7 @@ class QuestionGenreScreen extends PureComponent {
             <circle className="timer__line" cx="390" cy="390" r="370"
               style={{filter: `url(#blur)`, transform: `rotate(-90deg) scaleY(-1)`, transformOrigin: `center`}}/>
           </svg>
-
-          <div className="game__mistakes">
-            <div className="wrong"/>
-            <div className="wrong"/>
-            <div className="wrong"/>
-          </div>
+          {children}
         </header>
 
         <section className="game__screen">
@@ -80,5 +73,7 @@ QuestionGenreScreen.propTypes = {
   onAnswer: PropTypes.func.isRequired,
   question: questionGenreProp,
   renderPlayer: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
 };
+
 export default QuestionGenreScreen;
