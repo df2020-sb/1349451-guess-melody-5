@@ -2,6 +2,8 @@ import {extend} from "../utils";
 import {ActionType} from "./action";
 import questions from "../mocks/question";
 import {MAX_MISTAKE_COUNT} from "../const";
+import {isArtistAnswerCorrect, isGenreAnswerCorrect} from "../game";
+import {GameType} from "../const";
 
 const initialState = {
   mistakes: 0,
@@ -19,15 +21,25 @@ const reducer = (state = initialState, action) => {
       });
 
     case ActionType.INCREMENT_MISTAKES:
-      const mistakes = state.mistakes + action.payload;
+
+      let answerIsCorrect = false;
+
+      switch (action.question.type) {
+        case GameType.ARTIST:
+          answerIsCorrect = isArtistAnswerCorrect(action.question, action.userAnswer);
+          break;
+        case GameType.GENRE:
+          answerIsCorrect = isGenreAnswerCorrect(action.question, action.userAnswer);
+          break;
+      }
+
+      const mistakes = answerIsCorrect ? state.mistakes : state.mistakes + 1;
 
       if (mistakes >= MAX_MISTAKE_COUNT) {
         return extend({}, initialState);
       }
 
-      return extend(state, {
-        mistakes: state.mistakes + action.payload,
-      });
+      return extend(state, {mistakes});
 
     case ActionType.RESET_GAME:
       return extend({}, initialState);
