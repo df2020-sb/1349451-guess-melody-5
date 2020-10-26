@@ -13,8 +13,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact
-          path="/"
+        <Route exact path="/"
           render={({history}) => (
             <WelcomeScreen
               onPlayButtonClick={() => history.push(`/game`)}
@@ -25,12 +24,16 @@ const App = () => {
         <Route exact path="/login">
           <LoginScreen />
         </Route>
-        <Route exact path="/result">
-          <SuccessScreen />
-        </Route>
-        <Route exact path="/lose">
-          <FailureScreen />
-        </Route>
+        <Route exact path="/result"
+          render={({history}) => (
+            <SuccessScreen onReplayButtonClick={() => history.push(`/game`)}/>
+          )}
+        />
+        <Route exact path="/lose"
+          render={({history}) => (
+            <FailureScreen onReplayButtonClick={() => history.push(`/game`)}/>
+          )}
+        />
         <Route exact path="/game">
           <GameScreen errorsCount={MAX_MISTAKE_COUNT}/>
         </Route>
